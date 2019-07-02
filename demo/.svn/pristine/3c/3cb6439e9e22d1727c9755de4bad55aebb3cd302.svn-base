@@ -1,0 +1,181 @@
+package edu.zstu.json;
+
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+
+
+
+/**
+ * Creates a response that can be consumed by an Ext.data.JsonReader. The
+ * client-side Ext.data.JsonReader must have the "root" property set to
+ * "objectsToConvertToRecords". Note: Ext documentation often uses "rows" for
+ * this property, but "objectsToConvertToRecords" is more clear. Example
+ * Ext.data.JsonReader configuration: { root : 'objectsToConvertToRecords' } If
+ * the parameterized type has two properties "field1" and "field2", then when an
+ * instance of this class is read by the client, it will look like: {
+ * objectsToConvertToRecords : [ { field1 : 'value', field2 : 'value', }, {
+ * field1 : 'value', field2 : 'value', } ], success : true }
+ * 
+ * @param <T>
+ *            Type of Objects that will be converted to Ext.data.Records by the
+ *            client-side Ext.data.DataReader.
+ */
+public class JsonReaderResponse<T> {
+
+	private List<T> objectsToConvertToRecords;
+
+	/**
+	 * @see Ext.data.JsonReader.successProperty
+	 */
+	private boolean success;
+
+	private Long total;
+	
+	private String message;
+	
+	private int pageCount;
+	
+	private int currentPage;
+
+	/**
+	 * Creates a {@link #success}ful JsonReaderResponse with the provided
+	 * {@link #objectsToConvertToRecords}.
+	 * 
+	 * @param objectsToConvertToRecords
+	 */
+	public JsonReaderResponse(Page<T> page) {
+		this.objectsToConvertToRecords = page.getContent();
+		success = true;
+		total = page.getTotalElements();
+	}
+	
+	public JsonReaderResponse(Page<T> page, boolean isSuccess) {
+		this.objectsToConvertToRecords = page.getContent();
+		success = isSuccess;
+		total = page.getTotalElements();
+	}
+	
+	public JsonReaderResponse(Page<T> page, boolean isSuccess, String msg) {
+		this.objectsToConvertToRecords = page.getContent();
+		success = isSuccess;
+		total = page.getTotalElements();
+		message = msg;
+	}
+	
+	public JsonReaderResponse(List<T> objectsToConvertToRecords, int totalCount) {
+		this.objectsToConvertToRecords = objectsToConvertToRecords;
+		success = true;
+		total = Integer.valueOf(totalCount).longValue();
+	}
+	
+	public JsonReaderResponse(List<T> objectsToConvertToRecords, Long totalCount) {
+		this.objectsToConvertToRecords = objectsToConvertToRecords;
+		success = true;
+		total = totalCount;
+	}
+	
+	public JsonReaderResponse(List<T> objectsToConvertToRecords, Long totalCount, String messageProperty) {
+		this.objectsToConvertToRecords = objectsToConvertToRecords;
+		success = true;
+		total = totalCount;
+		message = messageProperty;
+	}
+
+	public JsonReaderResponse(List<T> objectsToConvertToRecords, boolean succ, Long totalCount, String messageProperty) {
+		this.objectsToConvertToRecords = objectsToConvertToRecords;
+		success = succ;
+		total = totalCount;
+		message = messageProperty;
+	}
+
+	/**
+	 * Creates a {@link #success}ful JsonReaderResponse with the provided
+	 * {@link #objectsToConvertToRecords}.
+	 * 
+	 * @param objectsToConvertToRecords
+	 */
+	public JsonReaderResponse(Page<T> page, int pageSize, int currentPage) {
+		// page为空判断由lyx添加
+		if(page == null) {
+			this.objectsToConvertToRecords = null;
+			success = false;
+			total = (long) 0;
+		} else {
+			this.objectsToConvertToRecords = page.getContent();
+			success = true;
+			total = page.getTotalElements();
+			if(page.getTotalElements() % pageSize != 0) {
+				this.pageCount = (int) (page.getTotalElements() / pageSize + 1);
+		    } else {
+		    	this.pageCount = (int) (page.getTotalElements() / pageSize);
+		    }
+			this.currentPage = currentPage;
+		}
+	}
+	/**
+	 * Creates an un{@link #success}ful JsonReaderResponse with null
+	 * {@link #objectsToConvertToRecords}. This signals the case where the
+	 * client established a connection with the server, but the server couldn't
+	 * fulfill it (e.g., user doesn't have proper user credentials).
+	 * 
+	 * @param objectsToConvertToRecords
+	 */
+	public JsonReaderResponse() {
+		this.objectsToConvertToRecords = null;
+		success = false;
+	}
+
+	public List<T> getObjectsToConvertToRecords() {
+		return objectsToConvertToRecords;
+	}
+
+	public void setObjectsToConvertToRecords(List<T> objectsToConvertToRecords) {
+		this.objectsToConvertToRecords = objectsToConvertToRecords;
+	}
+
+	public boolean isSuccess() {
+		return success;
+	}
+
+	public void setSuccess(boolean success) {
+		this.success = success;
+	}
+
+	public Long getTotal() {
+		return total;
+	}
+
+	public void setTotal(Long totalCount) {
+		this.total = totalCount;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	public int getPageCount() {
+		return pageCount;
+	}
+
+
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
+	}
+
+
+	public int getCurrentPage() {
+		return currentPage;
+	}
+
+
+	public void setCurrentPage(int currentPage) {
+		this.currentPage = currentPage;
+	}
+	
+
+}

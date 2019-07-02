@@ -1,0 +1,63 @@
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     2018/5/11 16:22:05                           */
+/*==============================================================*/
+
+
+DROP TABLE IF EXISTS FILE_ATTACH;
+
+DROP TABLE IF EXISTS FOOD;
+
+DROP TABLE IF EXISTS FOOD_STEPS;
+
+/*==============================================================*/
+/* Table: FILE_ATTACH                                           */
+/*==============================================================*/
+CREATE TABLE FILE_ATTACH
+(
+   ID                   INT NOT NULL AUTO_INCREMENT,
+   FILENAME             VARCHAR(200) NOT NULL COMMENT '文件名',
+   FILEPATH             VARCHAR(200) NOT NULL COMMENT '文件路径',
+   EXT                  VARCHAR(100) COMMENT '扩展名',
+   FILETYPE             VARCHAR(100) NOT NULL COMMENT '附件类型\r\n            如：邮件附件',
+   NOTE                 VARCHAR(1024) DEFAULT NULL COMMENT '说明',
+   PRIMARY KEY (ID)
+);
+
+/*==============================================================*/
+/* Table: FOOD                                                  */
+/*==============================================================*/
+CREATE TABLE FOOD
+(
+   ID                   INT NOT NULL AUTO_INCREMENT,
+   USER_ID              INT,
+   FILE_ID              INT,
+   FOOD_NAME            VARCHAR(100),
+   DEPLOY_DATE          DATE,
+   FOOD_MATERIAL        VARCHAR(1024),
+   FOOD_LIKES           INT,
+   FOOD_STEPS           INT,
+   PRIMARY KEY (ID),
+   CONSTRAINT FK_RELATIONSHIP_1 FOREIGN KEY (USER_ID)
+      REFERENCES SYS_USER (ID) ON DELETE RESTRICT ON UPDATE RESTRICT,
+   CONSTRAINT FK_RELATIONSHIP_2 FOREIGN KEY (FILE_ID)
+      REFERENCES FILE_ATTACH (ID) ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+
+/*==============================================================*/
+/* Table: FOOD_STEPS                                            */
+/*==============================================================*/
+CREATE TABLE FOOD_STEPS
+(
+   ID                   INT NOT NULL AUTO_INCREMENT,
+   FILE_ID              INT,
+   FOOD_ID              INT,
+   STEP_NO              INT,
+   STEP_DESC            VARCHAR(1024),
+   PRIMARY KEY (ID),
+   CONSTRAINT FK_RELATIONSHIP_5 FOREIGN KEY (FOOD_ID)
+      REFERENCES FOOD (ID) ON DELETE RESTRICT ON UPDATE RESTRICT,
+   CONSTRAINT FK_RELATIONSHIP_4 FOREIGN KEY (FILE_ID)
+      REFERENCES FILE_ATTACH (ID) ON DELETE RESTRICT ON UPDATE RESTRICT
+);
+

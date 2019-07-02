@@ -1,0 +1,50 @@
+package edu.zstu.web.portal;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import edu.zstu.entity.User;
+import edu.zstu.service.UserService;
+
+@Controller
+@RequestMapping(value="/portal")
+public class UrlControl {
+	@Autowired
+	private UserService userService;
+	
+	@RequestMapping(value = "index", method = RequestMethod.GET)
+	public String index(Model model) {
+		//model.addAttribute("message", "欢迎光临！");
+		return "index";
+	}
+	
+/*	@RequestMapping(value = "login", method = RequestMethod.GET)
+	public String login() {
+		return "login";
+	}*/
+	
+	@RequestMapping(value = "food", method = RequestMethod.GET)
+	public String food() {
+		return "food";
+	}
+	
+	@RequestMapping(value = "activity", method = RequestMethod.GET)
+	public String activity() {
+		return "activity";
+	}
+	
+		
+	@RequestMapping(value = "food/ngfg", method = RequestMethod.GET)
+	public String ngfg() {
+		return "food/ngfg";
+	}
+	
+	@RequestMapping(value = "getCurrentUser", method = RequestMethod.GET)
+	public @ResponseBody User getCurrentUser() {
+		return this.userService.getCurrentUser();
+	}
+}
