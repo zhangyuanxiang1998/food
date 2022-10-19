@@ -21,7 +21,7 @@
 		<commons-io>2.4</commons-io>
 		<commons-fileupload>1.2</commons-fileupload>
 		<guava.version>14.0.1</guava.version>
-		<jackson.version>2.1.5</jackson.version>
+		<jackson.version>2.13.4.1</jackson.version>
 		<!-- Spring -->
 		<spring.version>4.1.0.RELEASE</spring.version>
 		<springside.version>4.1.0.GA</springside.version>
