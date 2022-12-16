@@ -23,7 +23,7 @@
 		<guava.version>14.0.1</guava.version>
 		<jackson.version>2.1.5</jackson.version>
 		<!-- Spring -->
-		<spring.version>4.1.0.RELEASE</spring.version>
+		<spring.version>5.2.20.RELEASE</spring.version>
 		<springside.version>4.1.0.GA</springside.version>
 		
 		<!-- Hibernate / JPA -->
